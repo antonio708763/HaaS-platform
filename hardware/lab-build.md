@@ -26,7 +26,6 @@ Hardware is NOT representative of final client reference builds.
 
 - Any unusual hardware quirks:
 - Any firmware/BIOS settings required:
-
 # Lab Build (Research Hardware)
 
 Purpose:
