@@ -10,8 +10,8 @@ Allow a clean reinstall of Proxmox and restoration of functionality.
 
 ## Table of Contents
 
-- [Proxmox Version](#proxmox-version)
-- [Installation Method](#installation-method)
+## [Proxmox Version](#proxmox-version)
+## [Installation Method](#installation-method)
 - [Boot Mode](#boot-mode)
 - [Storage Configuration](#storage-configuration)
 - [ZFS Pool Status](#zfs-pool-status-important)
