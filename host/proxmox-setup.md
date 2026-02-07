@@ -4,24 +4,28 @@ Purpose:
 Document installation and configuration of the Proxmox host.
 
 Goal:
-Allow a clean reinstall of Proxmox and restoration of functionality.
+Allow a clean reinstall of Proxmox and restoration of functionality with minimal guesswork.
 
 ---
 
 ## Table of Contents
 
-- ## [Proxmox Version](#proxmox-version)
-- ## [Installation Method](#installation-method)
-- ## [Boot Mode](#boot-mode)
-- ## [Storage Configuration](#storage-configuration)
-- ## [ZFS Pool Status](#zfs-pool-status-important)
-- ## [VM Storage Layout](#vm-storage-layout)
-- ## [Snapshot Behavior and VFIO Considerations](#snapshot-behavior-and-vfio-considerations)
-- ## [VFIO / GPU Passthrough Snapshot Limitation](#vfio--gpu-passthrough-snapshot-limitation)
-- ## [Notes](#notes)
+### Host Basics
+- [Proxmox Version](#proxmox-version)
+- [Installation Method](#installation-method)
+- [Boot Mode](#boot-mode)
 
----
+### Storage
+- [Storage Configuration](#storage-configuration)
+- [ZFS Pool Status](#zfs-pool-status-important)
+- [VM Storage Layout](#vm-storage-layout)
 
+### Virtualization & Passthrough
+- [Snapshot Behavior and VFIO Considerations](#snapshot-behavior-and-vfio-considerations)
+- [VFIO / GPU Passthrough Snapshot Limitation](#vfio--gpu-passthrough-snapshot-limitation)
+
+### Miscellaneous
+- [Notes](#notes)
 
 ---
 
