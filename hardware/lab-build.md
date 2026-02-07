@@ -33,29 +33,6 @@ This system exists to validate:
 ## Host System
 
 ### CPU
-
-### Motherboard
-
-### BIOS / Firmware
-
-### RAM
-
-### GPU
-
-### Networking
-
-### Storage (Physical)
-
-### VM Storage
-
----
-
-## Notes
-
-
-## Host System
-
-### CPU
 AMD Ryzen 3 2200G  
 4 cores / 4 threads  
 Integrated Radeon Vega Graphics
