@@ -4,6 +4,30 @@ Purpose:
 Temporary research platform used to explore architecture, limitations, and workflows.
 Hardware is NOT representative of final client reference builds.
 
+This system exists to validate:
+- GPU passthrough
+- Media acceleration behavior
+- Storage layouts
+- VM-based service architecture
+
+---
+
+## Table of Contents
+
+### Platform Overview
+- [Host System](#host-system)
+- [Notes](#notes)
+
+### Components
+- [CPU](#cpu)
+- [Motherboard](#motherboard)
+- [BIOS / Firmware](#bios--firmware)
+- [RAM](#ram)
+- [GPU](#gpu)
+- [Networking](#networking)
+- [Storage (Physical)](#storage-physical)
+- [VM Storage](#vm-storage)
+
 ---
 
 ## Host System
@@ -12,33 +36,22 @@ Hardware is NOT representative of final client reference builds.
 
 ### Motherboard
 
+### BIOS / Firmware
+
 ### RAM
 
 ### GPU
 
-### Storage Devices
-
 ### Networking
+
+### Storage (Physical)
+
+### VM Storage
 
 ---
 
 ## Notes
 
-- Any unusual hardware quirks:
-- Any firmware/BIOS settings required:
-# Lab Build (Research Hardware)
-
-Purpose:
-Temporary research platform used to explore architecture, limitations, and workflows.
-Hardware is NOT representative of final client reference builds.
-
-This system exists to validate:
-- GPU passthrough
-- Media acceleration behavior
-- Storage layouts
-- VM-based service architecture
-
----
 
 ## Host System
 
