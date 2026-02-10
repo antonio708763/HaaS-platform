@@ -1,0 +1,212 @@
+# Haas-platform (Homelab as a Service)
+
+This repo documents my homelab platform build using **Proxmox + Debian + Docker Compose** with a focus on:
+- repeatable deployments
+- security hardening
+- clear documentation
+- self-hosted services behind HTTPS
+
+The goal is to treat the homelab like an actual deployable platform (HaaS-style), not just a random collection of apps.
+
+---
+
+## Repo Structure
+
+Haas-platform/
+├── docs/
+│ ├── decision-log.md
+│ └── glossary.md
+├── hardware/
+│ ├── lab-build.md
+│ └── reference-build.md
+├── host/
+│ ├── network-design.md
+│ └── proxmox-setup.md
+├── stacks/
+│ └── immich/
+│ ├── .env.example
+│ ├── docker-compose.yml
+│ ├── README.md
+│ └── troubleshooting.md
+├── vm/
+│ └── debian12-base.md
+├── automation-ideas.md
+└── philosophy.md
+
+
+---
+
+## Platform Overview
+
+### Host Layer (Hypervisor)
+- **Proxmox VE**
+- Storage backend: `local-zfs` (`rpool/data`)
+- VM networking via bridge: `vmbr0`
+
+### VM Layer (Service VM)
+- Debian 12 (Bookworm)
+- Docker Engine + Docker Compose
+- Reverse proxy: Caddy
+- Services deployed via Compose
+
+### Service Layer (Apps)
+- Vaultwarden (Bitwarden compatible)
+- Uptime Kuma (monitoring)
+- Immich (self-hosted photo platform)
+
+---
+
+## Lab DNS / Local Domains
+
+This platform uses local DNS names for services.
+
+Example domains used:
+- `https://vaultwarden.local`
+- `https://kuma.local`
+- `https://immich.local`
+
+These are resolved by local DNS (or hosts file) to the Debian service VM.
+
+Debian service VM IP:
+- `192.168.1.43`
+
+---
+
+## Security Approach
+
+This repo follows a security-first approach:
+- services are not exposed directly to the LAN
+- most services bind to `127.0.0.1` only
+- Caddy reverse proxy provides HTTPS + routing
+- `no-new-privileges:true` enabled where possible
+- unnecessary Linux capabilities dropped (`cap_drop: ALL`)
+- container logs rotated (`max-size`, `max-file`)
+
+---
+
+## Deployment Summary (High-Level)
+
+### 1. Build Proxmox host
+Follow:
+- `host/proxmox-setup.md`
+- `host/network-design.md`
+
+### 2. Create Debian service VM
+Follow:
+- `vm/debian12-base.md`
+
+### 3. Install Docker
+Install Docker Engine and verify:
+```bash
+docker run hello-world
+4. Create services directory
+sudo mkdir -p /opt/services
+sudo chown -R $USER:$USER /opt/services
+5. Deploy Caddy reverse proxy
+Caddy is used to provide HTTPS locally and reverse proxy requests to services.
+
+Caddy listens on:
+
+ports 80 and 443
+
+6. Deploy Vaultwarden
+Vaultwarden runs behind Caddy with HTTPS.
+
+7. Deploy Uptime Kuma
+Uptime Kuma runs behind Caddy with HTTPS.
+
+8. Deploy Immich
+Immich runs behind Caddy with HTTPS and uses:
+
+PostgreSQL + pgvector
+
+Redis
+
+optional GPU acceleration (VAAPI)
+
+Common Commands
+Show running containers
+docker ps
+View logs for a container
+docker logs --tail=200 <container_name>
+Start/stop a stack
+docker compose up -d
+docker compose down
+Update containers
+docker compose pull
+docker compose up -d
+Notes About HTTPS (Vaultwarden)
+Vaultwarden requires HTTPS for browser crypto support.
+
+If Vaultwarden is accessed by raw IP (HTTP), the UI will fail with:
+
+"You are not using a secure context which is required for the Subtle Crypto API to work."
+
+Correct access example:
+
+https://vaultwarden.local
+
+Immich Notes
+Immich must have a valid .env configuration.
+
+Important rules:
+
+DB_PASSWORD must match POSTGRES_PASSWORD
+
+IMMICH_LOG_LEVEL must be valid (log, warn, etc.)
+
+Immich should be published only to localhost and accessed through Caddy
+
+Correct access example:
+
+https://immich.local
+
+Documentation Rules (Repo Standard)
+This repo is treated like a professional platform documentation set.
+
+Rules:
+
+changes must be reproducible
+
+steps must be written so a fresh install can follow them
+
+when something breaks, troubleshooting steps must be documented
+
+config files stored in repo should include .example versions only
+
+secrets must never be committed
+
+Next Steps
+Planned improvements:
+
+Proxmox VM templating workflow
+
+automated stack deployments
+
+backups and restore procedures
+
+automated TLS / DNS improvements
+
+monitoring dashboards
+
+vulnerability scanning / audit logging
+
+See:
+
+automation-ideas.md
+
+Disclaimer
+This repo is for personal lab learning and documentation.
+It is not intended as production infrastructure guidance without modification.
+
+
+---
+
+If you want, next I can generate the **FINAL** versions of:
+- `host/proxmox-setup.md`
+- `host/network-design.md`
+- `stacks/caddy/README.md`
+- `stacks/vaultwarden/docker-compose.yml`
+- `stacks/uptime-kuma/docker-compose.yml`
+
+…and make them all match your **real working build** so your repo becomes truly “deployable documentation.”
