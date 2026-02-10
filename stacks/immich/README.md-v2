@@ -198,15 +198,3 @@ automation-ideas.md
 Disclaimer
 This repo is for personal lab learning and documentation.
 It is not intended as production infrastructure guidance without modification.
-
-
----
-
-If you want, next I can generate the **FINAL** versions of:
-- `host/proxmox-setup.md`
-- `host/network-design.md`
-- `stacks/caddy/README.md`
-- `stacks/vaultwarden/docker-compose.yml`
-- `stacks/uptime-kuma/docker-compose.yml`
-
-…and make them all match your **real working build** so your repo becomes truly “deployable documentation.”
