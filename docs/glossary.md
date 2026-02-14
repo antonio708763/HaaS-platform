@@ -1,8 +1,10 @@
-Purpose:
+# Glossary (HaaS-platformV2)
+
+Purpose:  
 Define project-specific terminology for consistent communication across documentation, support, and customer-facing materials.
 
-Scope:
-Terms used throughout HaaS-platform repository and future client deployments.
+Scope:  
+Terms used throughout HaaS-platformV2 documentation and future client deployments.
 
 This glossary ensures:
 - Technical team uses consistent language
@@ -13,73 +15,94 @@ This glossary ensures:
 
 ## Table of Contents
 
-### Core Concepts
-- [HaaS Node](#haas-node)
-- [Service Stack](#service-stack)
-- [Reference Build](#reference-build)
-
-### Architecture Layers
-- [Host](#host)
-- [Service VM](#service-vm)
-- [Proxy Network](#proxy-network)
-
-### Hardware Terms
-- [Research Hardware](#research-hardware)
-- [Client SKU](#client-sku)
-
-### Operational Terms
-- [Lab Phase](#lab-phase)
-- [Production Ready](#production-ready)
-
-### Notes
+- [Core Concepts](#core-concepts)
+  - [HaaS Node](#haas-node)
+  - [Service Stack](#service-stack)
+  - [Reference Build](#reference-build)
+- [Architecture Layers](#architecture-layers)
+  - [Host](#host)
+  - [Service VM](#service-vm)
+  - [Proxy Network](#proxy-network)
+- [Hardware Terms](#hardware-terms)
+  - [Research Hardware](#research-hardware)
+  - [Client SKU](#client-sku)
+- [Operational Terms](#operational-terms)
+  - [Lab Phase](#lab-phase)
+  - [Production Ready](#production-ready)
 - [Notes](#notes)
+- [Alphabetical Quick Reference](#alphabetical-quick-reference)
 
 ---
 
 ## Core Concepts
 
 ### HaaS Node
-Complete deployed appliance (hardware + software) delivered to customer.
-Example: Proxmox host + Debian service VM + 3 service stacks = 1 HaaS Node
+A complete deployed appliance (hardware + software) delivered to a customer.
 
-text
+Example:  
+Proxmox host + Debian Service VM + multiple service stacks = 1 HaaS Node
+
+---
 
 ### Service Stack
-Cohesive group of Docker containers providing one customer feature.
-Example: stacks/immich/ = Immich photo management stack
+A cohesive group of Docker containers providing one customer-facing feature.
 
-text
+Example:  
+`stacks/immich/` = Immich photo management stack
+
+---
 
 ### Reference Build
-Fully documented, tested, reproducible deployment targetting production.
-Contrasts with: Lab/research builds (experimental hardware/config)
+A fully documented, tested, and reproducible deployment target intended for production-quality standards.
 
-text
+This contrasts with lab/research builds which may use experimental hardware or incomplete standards.
 
 ---
 
 ## Architecture Layers
 
 ### Host
-Bare-metal Proxmox VE hypervisor running on customer hardware.
-IP: 192.168.1.123 (lab), static/reserved in production
-Role: VM management, ZFS storage, networking bridge
+The bare-metal Proxmox VE hypervisor running on customer hardware.
 
-text
+Role:
+- VM management
+- ZFS storage management
+- Networking bridge configuration
+
+Example lab reference IP:  
+`192.168.1.123` (static/reserved in production)
+
+---
 
 ### Service VM
-Single Debian 12 VM (VMID 900+) hosting all Docker service stacks.
-Purpose: Container isolation, snapshots, GPU passthrough
-Networking: Direct LAN access via vmbr0 (no NAT)
+A standardized Debian 12 VM hosting all Docker service stacks.
 
-text
+Purpose:
+- Container isolation
+- Backup/restore operations
+- Template-based scaling
+
+Example VMID range:
+- VM100 = golden template
+- VM200 = Docker host (service VM)
+
+Networking:
+- Direct LAN access via `vmbr0` (no NAT)
+
+---
 
 ### Proxy Network
-Shared Docker network (`proxy`) for reverse proxy access to all service stacks.
-Created once: docker network create proxy
-Used by: All stacks + Traefik/Nginx reverse proxy
+A shared Docker network named `proxy` used for reverse proxy routing to all service stacks.
 
-text
+Created once per Docker host:
+
+```bash
+docker network create proxy
+```
+
+Used by:
+- Traefik reverse proxy stack
+- All service stacks that need HTTPS exposure
 
 ---
 
@@ -87,78 +110,101 @@ text
 
 ### Research Hardware
 Lab-only components used for architecture validation.
-Current: Ryzen 3 2200G + Radeon HD 6750 + single SSD (DEGRADED)
-Status: NOT production suitable
 
-text
+These are explicitly **NOT production suitable**.
+
+Example lab hardware:
+- Ryzen 3 2200G
+- Radeon HD 6750
+- Single SSD (DEGRADED)
+
+---
 
 ### Client SKU
-Standardized hardware bundle sold to customers.
-Basic SKU: i3, 16GB RAM, 256GB SSD + 2TB HDD
-Plus SKU: i5, 32GB RAM, 512GB SSD + 4TB HDD + GPU
+A standardized hardware bundle sold to customers.
 
-text
+Example SKUs:
+
+**Basic SKU**
+- i3 CPU
+- 16GB RAM
+- 256GB SSD
+- 2TB HDD
+
+**Plus SKU**
+- i5 CPU
+- 32GB RAM
+- 512GB SSD
+- 4TB HDD
+- Optional GPU
 
 ---
 
 ## Operational Terms
 
 ### Lab Phase
-Current research/experimentation stage (v1.0 - v1.5).
-Goals: Validate architecture, document patterns, test stacks
-Hardware: May use degraded/single-fault components
+Research/experimentation stage (v1.x).
 
-text
+Goals:
+- Validate architecture
+- Document patterns
+- Test service stacks
+
+Hardware may be non-standard or degraded during this phase.
+
+---
 
 ### Production Ready
-Customer-facing deployment quality (v2.0+).
-Requirements:
+Customer-facing deployment quality (v2.x+).
 
-ZFS mirror (no single SSD)
-
-VLAN segmentation
-
-Automated backups
-
-99.9% uptime SLA
-
-text
+Minimum requirements typically include:
+- ZFS mirror (no single SSD failure risk)
+- VLAN segmentation (future standard)
+- Automated backups
+- Restore verification procedures
+- Uptime/reliability expectations
 
 ---
 
 ## Notes
 
-Terminology evolution:
-Lab → Research Hardware → Client SKU
-Single VM → Service VM → HaaS Node
-Immich stack → Photo Stack → Private Photos
+### Terminology evolution
+As the platform matures, language becomes more client-focused.
 
-text
-
-Customer-facing terms (avoid technical jargon):
-"HaaS Node" → "Your Home Server Box"
-"Service Stack" → "Photos App" / "Files App"
-"Reference Build" → "Standard Setup"
-
-text
-
-Support ticket categorization:
-#hardware → Client SKU failure
-#host → Proxmox issues
-#vm → Service VM problems
-#stack-immich → Photos app issues
-#network → Proxy/reverse proxy problems
-
-text
-
-Versioned terms:
-v1.x = Lab/Research
-v2.x = Reference Build
-v3.x = Customer Production
-
-text
+Examples:
+- Lab → Research Hardware → Client SKU
+- Single VM → Service VM → HaaS Node
+- Immich stack → Photo Stack → Private Photos
 
 ---
 
-Alphabetical quick reference:
+### Customer-facing language (avoid jargon)
+Use simplified names when talking to clients:
+
+- "HaaS Node" → "Home Server Box"
+- "Service Stack" → "Photos App" / "Files App"
+- "Reference Build" → "Standard Setup"
+
+---
+
+### Support ticket categorization (recommended)
+Suggested tags for issue tracking:
+
+- `#hardware` → Client SKU failure
+- `#host` → Proxmox issues
+- `#vm` → Service VM problems
+- `#stack-immich` → Photos stack issues
+- `#network` → Proxy/reverse proxy problems
+
+---
+
+### Versioned terms
+- v1.x = Lab/Research
+- v2.x = Reference Build
+- v3.x = Customer Production (future)
+
+---
+
+## Alphabetical Quick Reference
+
 HaaS Node, Host, Lab Phase, Production Ready, Proxy Network, Reference Build, Research Hardware, Service Stack, Service VM, Client SKU
